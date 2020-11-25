@@ -22,13 +22,13 @@ class Authentication extends RestController
         if (!empty($username) && !empty($password)) {
 
             // Check if any user exists with the given credentials
-            $con['returnType'] = 'single';
-            $con['conditions'] = array(
+            $params['returnType'] = 'single';
+            $params['conditions'] = array(
                 'nama_nasabah' => $username,
                 'password' => md5($password),
-                'status' => 1
+                'status' => 0
             );
-            $user = $this->nasabah->getRow($con);
+            $user = $this->nasabah->getRows($params);
 
             if ($user) {
                 // Set the response and exit
@@ -40,11 +40,11 @@ class Authentication extends RestController
             } else {
                 // Set the response and exit
                 //BAD_REQUEST (400) being the HTTP response code
-                $this->response("Wrong email or password.", RestController::HTTP_BAD_REQUEST);
+                $this->response("Wrong name or password.", RestController::HTTP_BAD_REQUEST);
             }
         } else {
             // Set the response and exit
-            $this->response("Provide email and password.", RestController::HTTP_BAD_REQUEST);
+            $this->response("Provide name and password.", RestController::HTTP_BAD_REQUEST);
         }
     }
 }
