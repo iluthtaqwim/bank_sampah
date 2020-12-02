@@ -17,6 +17,23 @@ class M_Nasabah extends CI_Model
         return $response;
     }
 
+    public function user_login($username, $password)
+    {
+        $this->db->where('nama_nasabah', $username);
+        $q = $this->db->get($this->nasabah);
+
+
+        if ($q->num_rows()) {
+            $user_pass = $q->row('password');
+            if (md5($password) === $user_pass) {
+                return $q->row();
+            }
+            return FALSE;
+        } else {
+            return FALSE;
+        }
+    }
+
     function getRows($params = array())
     {
         $this->db->select('*');
@@ -32,7 +49,7 @@ class M_Nasabah extends CI_Model
         if (array_key_exists("id", $params)) {
             $this->db->where('id', $params['id']);
             $query = $this->db->get();
-            $result = $query->row_array();
+            $result = $query->row();
         } else {
             //set start and limit
             if (array_key_exists("start", $params) && array_key_exists("limit", $params)) {

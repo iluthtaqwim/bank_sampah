@@ -35,29 +35,74 @@ class Transaksi extends CI_Controller
     {
         $get_nasabah = $this->transaksi->get_data_nasabah($id_nasabah);
 
-        print_r(json_encode($get_nasabah));
-        exit;
+        echo json_encode($get_nasabah);
+    }
+
+    function add_list_trans()
+    {
+        $id_jenis = $this->input->post('jenis_sampah');
+        $q_harga = $this->db->query("SELECT harga FROM jenis_sampah WHERE id_jenis_sampah = '$id_jenis'")->row();
+        $berat = $this->input->post('berat_sampah');
+
+        $t = $q_harga['harga'] * $berat;
+        $data_list_transaksi = array(
+            'kode_transaksi' => $this->input->post('uniqid'),
+            'total_list' =>  $t,
+        );
+        $this->transaksi->insert_list_transaksi($data_list_transaksi);
     }
 
     function add_transaksi()
     {
         $id_jenis = $this->input->post('jenis_sampah');
-        $q_harga = $this->db->query("SELECT id_jenis_sampah, harga FROM jenis_sampah WHERE id_jenis_sampah = '$id_jenis'")->row();
-        print_r($q_harga);
-        exit;
+        $q_harga = $this->db->query("SELECT harga FROM jenis_sampah WHERE id_jenis_sampah = '$id_jenis'")->row();
         $berat = $this->input->post('berat_sampah');
-        $total = $berat * $q_harga;
 
+        $t = $q_harga->harga * $berat;
         $data = array(
             'kode_transaksi' => $this->input->post('uniqid'),
             'id_nasabah' => $this->input->post('nama_nasabah'),
             'id_petugas' => '1',
             'id_jenis_sampah' => $id_jenis,
             'berat_sampah' => $this->input->post('berat_sampah'),
-            'total_harga' => $total,
+            'total_harga' =>  $t,
         );
 
-        $data = $this->transaksi_model->insert_data($data);
+
+
+
+        $this->transaksi->insert_data($data);
+
+        $resp = array(
+            'status' => 'success'
+        );
+
+        echo json_encode($resp);
+    }
+
+    function delete_transaksi()
+
+    {
+        $id = $this->input->post('id');
+
+        $act = $this->transaksi->delete_data($id);
+        if ($act) {
+            $data = array(
+                'response' => '200OK',
+                'id'       => $id
+            );
+        }
+
+        echo json_encode($data);
+    }
+
+    function get_list()
+    {
+        $uid = $this->input->post('uniqid');
+
+        $data =  $this->transaksi->transaksi_data($uid);
+
+        // $this->template->load('layout/template', 'pages/admin/tambah_transaksi', $data);
         echo json_encode($data);
     }
 }
