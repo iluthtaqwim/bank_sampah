@@ -1,6 +1,7 @@
 <?php
 
 use chriskacerguis\RestServer\RestController;
+use Firebase\JWT\JWT;
 
 class Authentication extends RestController
 {
@@ -18,7 +19,7 @@ class Authentication extends RestController
 
         // Validate the post data
         $output = $this->nasabah->user_login($this->input->post('username'), $this->input->post('password'));
-        if (!empty($output) and $output != FALSE) {
+        if (!empty($output)) {
 
             // Check if any output exists with the given credentials
             // $params['returnType'] = 'single';
@@ -28,23 +29,37 @@ class Authentication extends RestController
             //     'status' => 0
             // );
             // $output = $this->nasabah->getRows($params);
+            $key = "example_key";
+            $data = array(
+                'id_nasabah' => $output->id_nasabah,
+                'nama_nasabah' => $output->nama_nasabah,
+                'alamat' => $output->alamat,
+                'tanggal_lahir' => $output->tanggal_lahir,
+                'tempat_lahir' => $output->tempat_lahir,
+                'id_wilayah' => $output->id_wilayah,
+                'no_hp' => $output->no_hp,
+                'total_tabungan' => $output->total_tabungan,
+                'create_at' => $output->create_at,
+                'update_at' => $output->update_at,
+                'data_delete' => $output->data_delete,
+                'status' => $output->status,
+                'update_at' => $output->update_at,
 
-
-            $this->load->library('Authorization_Token');
-            $data['id_nasabah'] = $output->id_nasabah;
-            $data['nama_nasabah'] = $output->nama_nasabah;
-            $data['alamat'] = $output->alamat;
-            $data['tanggal_lahir'] = $output->tanggal_lahir;
-            $data['tempat_lahir'] = $output->tempat_lahir;
-            $data['id_wilayah'] = $output->id_wilayah;
-            $data['no_hp'] = $output->no_hp;
-            $data['total_tabungan'] = $output->total_tabungan;
-            $data['create_at'] = $output->create_at;
-            $data['update_at'] = $output->update_at;
-            $data['data_delete'] = $output->data_delete;
+            );
+            // $data['id_nasabah'] = $output->id_nasabah;
+            // $data['nama_nasabah'] = $output->nama_nasabah;
+            // $data['alamat'] = $output->alamat;
+            // $data['tanggal_lahir'] = $output->tanggal_lahir;
+            // $data['tempat_lahir'] = $output->tempat_lahir;
+            // $data['id_wilayah'] = $output->id_wilayah;
+            // $data['no_hp'] = $output->no_hp;
+            // $data['total_tabungan'] = $output->total_tabungan;
+            // $data['create_at'] = $output->create_at;
+            // $data['update_at'] = $output->update_at;
+            // $data['data_delete'] = $output->data_delete;
             $data['status'] = $output->status;
-            $user_token =  $this->authorization_token->generateToken($data);
-
+            $user_token =  JWT::encode($data, $key);
+            // $this->set_response(json_encode($user_token, RestController::HTTP_OK));
             // print_r($this->authorization_token->outputData());
             // exit;
             // Set the response and exit

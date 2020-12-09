@@ -20,7 +20,7 @@ class M_Nasabah extends CI_Model
     public function user_login($username, $password)
     {
         $this->db->where('nama_nasabah', $username);
-        $q = $this->db->get($this->nasabah);
+        $q = $this->db->get($this->userTbl);
 
 
         if ($q->num_rows()) {

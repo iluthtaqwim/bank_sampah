@@ -12,7 +12,8 @@
 	},
 	"require": {
 		"php": ">=5.3.7",
-		"chriskacerguis/codeigniter-restserver": "dev-master"
+		"chriskacerguis/codeigniter-restserver": "dev-master",
+		"firebase/php-jwt": "^5.2"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
