@@ -75,12 +75,12 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'ec2-52-22-238-188.compute-1.amazonaws.com',
-	'username' => 'rvaawyvrysaywh',
-	'password' => '51f9b03608a85d5c2b9a79a4a1ee95aad5313a397d0fceeb41c08195cd70fd63',
-	'database' => 'df4se3kqv8el50',
-	'dbdriver' => 'postgre',
-	'port'	   => '5432',
+	'hostname' => 'localhost',
+	'username' => 'root',
+	'password' => '',
+	'database' => 'banksampah_db',
+	'dbdriver' => 'mysqli',
+	'port'	   => '',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),
