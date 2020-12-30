@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class DataRw1 extends CI_Controller
@@ -64,16 +65,42 @@ class DataRw1 extends CI_Controller
 
     public function tambah_nasabah()
     {
+        $nasabah = $this->input->post('nama_nasabah');
+        $no = $this->input->post('no_hp');
+
+        $this->load->library('ciqrcode');
+
+        $config['cacheable']    = true; //boolean, the default is true
+        $config['cachedir']     = './assets/'; //string, the default is application/cache/
+        $config['errorlog']     = './assets/'; //string, the default is application/logs/
+        $config['imagedir']     = './assets/qrcode/'; //direktori penyimpanan qr code
+        $config['quality']      = true; //boolean, the default is true
+        $config['size']         = '1024'; //interger, the default is 1024
+        $config['black']        = array(224, 255, 255); // array, default is array(255,255,255)
+        $config['white']        = array(70, 130, 180); // array, default is array(0,0,0)
+        $this->ciqrcode->initialize($config);
+
+        $image_name = $no . '.png'; //buat name dari qr code sesuai dengan nip
+
+        $params['data'] = $no; //data yang akan di jadikan QR CODE
+        $params['level'] = 'H'; //H=High
+        $params['size'] = 10;
+        $params['savename'] = FCPATH . $config['imagedir'] . $image_name; //simpan image QR CODE ke folder assets/images/
+        $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
+
         $data = array(
-            'nama_nasabah'     => $this->input->post('nama_nasabah'),
+            'nama_nasabah'     => $nasabah,
             'alamat'           => $this->input->post('alamat'),
             'tanggal_lahir'    => $this->input->post('tanggal_lahir'),
             'tempat_lahir'     => $this->input->post('tempat_lahir'),
             'id_wilayah'       => $this->input->post('id_wilayah'),
-            'no_hp'            => $this->input->post('no_hp'),
-            'password'         => '1234',
+            'no_hp'            => $no,
+            'password'         => md5('1234'),
+            'qr_code'           => $image_name,
 
         );
+
+
         $this->nasabah->add_nasabah($data);
         redirect(site_url('datarw1/'));
     }
@@ -81,6 +108,31 @@ class DataRw1 extends CI_Controller
     public function edit_nasabah()
     {
 
+        $no_lawas = $this->input->get('no_hp');
+        $image_name_lawas = $no_lawas . 'png';
+        $nasabah = $this->input->post('nama_nasabah');
+        $no = $this->input->post('no_hp');
+
+        $this->load->library('ciqrcode');
+
+        $config['cacheable']    = true; //boolean, the default is true
+        $config['cachedir']     = './assets/'; //string, the default is application/cache/
+        $config['errorlog']     = './assets/'; //string, the default is application/logs/
+        $config['imagedir']     = './assets/qrcode/'; //direktori penyimpanan qr code
+        $config['quality']      = true; //boolean, the default is true
+        $config['size']         = '1024'; //interger, the default is 1024
+        $config['black']        = array(224, 255, 255); // array, default is array(255,255,255)
+        $config['white']        = array(70, 130, 180); // array, default is array(0,0,0)
+        $this->ciqrcode->initialize($config);
+
+        $image_name = $no . '.png'; //buat name dari qr code sesuai dengan nip
+
+        $params['data'] = $no; //data yang akan di jadikan QR CODE
+        $params['level'] = 'H'; //H=High
+        $params['size'] = 10;
+        $params['savename'] = FCPATH . $config['imagedir'] . $image_name; //simpan image QR CODE ke folder assets/images/
+        $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
+        unlink(FCPATH . $config['imagedir'] . $image_name_lawas);
         $data = array(
             'nama_nasabah'     => $this->input->post('nama_nasabah'),
             'alamat'           => $this->input->post('alamat'),
@@ -88,7 +140,7 @@ class DataRw1 extends CI_Controller
             'tempat_lahir'     => $this->input->post('tempat_lahir'),
             'id_wilayah'       => $this->input->post('id_wilayah'),
             'no_hp'            => $this->input->post('no_hp'),
-
+            'qr_code'           => $image_name,
         );
         $this->nasabah->update_nasabah(array('id_nasabah' => $this->input->post('id_nasabah')), $data);
         echo json_encode(array("status" => TRUE));
