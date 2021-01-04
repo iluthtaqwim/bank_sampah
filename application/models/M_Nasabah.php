@@ -92,4 +92,20 @@ class M_Nasabah extends CI_Model
             return $response;
         }
     }
+
+    public function tabungan($id = false)
+    {
+        if ($id == true) {
+            $tabungan = $this->db->query('SELECT id_nasabah,total_tabungan FROM nasabah WHERE id_nasabah = ' . $id)->row();
+            $response['status'] = 200;
+            $response['error'] = false;
+            $response['tabungan'] = $tabungan;
+            return $response;
+        } else {
+            $response['status'] = 400;
+            $response['error'] = true;
+            $response['tabungan'] = 'nasabah tidak ditemukan';
+            return $response;
+        }
+    }
 }

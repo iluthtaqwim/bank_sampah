@@ -4,12 +4,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Data RW 01</h1>
+                    <h1>Data Transaksi</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="<?php echo base_url() ?>">Home</a></li>
-                        <li class="breadcrumb-item active">Data RW 01</li>
+                        <li class="breadcrumb-item active">data transaksi</li>
                     </ol>
                 </div>
             </div>
@@ -24,7 +24,6 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">DataTable with minimal features & hover style</h3>
-                            <button style="float:right;" type="button" onclick="addFunction()" class="btn btn-primary">Tambah Nasabah</button>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -32,13 +31,12 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
+                                        <th>Kode Transaksi</th>
                                         <th>Nama</th>
-                                        <th>Alamat</th>
-                                        <th>Tanggal Lahir</th>
-                                        <th>Tempat Lahir</th>
-                                        <th>Wilayah</th>
-                                        <th>No Hp</th>
-                                        <th>Tabungan (Rp)</th>
+                                        <th>Tanggal Transaksi</th>
+                                        <th>Jenis Sampah</th>
+                                        <th>Berat Sampah</th>
+                                        <th>Total Harga</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -142,7 +140,7 @@
             ],
             // Load data for the table's content from an Ajax source
             "ajax": {
-                "url": "<?php echo site_url('datarw1/ajax_list') ?>",
+                "url": "<?php echo site_url('transaksi/ajax_list') ?>",
                 "type": "POST"
             },
 

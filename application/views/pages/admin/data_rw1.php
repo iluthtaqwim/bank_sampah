@@ -4,12 +4,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Data RW 01</h1>
+                    <h1>Data Nasabah</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="<?php echo base_url() ?>">Home</a></li>
-                        <li class="breadcrumb-item active">Data RW 01</li>
+                        <li class="breadcrumb-item active">Data Nasabah</li>
                     </ol>
                 </div>
             </div>
@@ -23,7 +23,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">DataTable with minimal features & hover style</h3>
+                            <h3 class="card-title">Daftar data nasabah dan total tabungan</h3>
                             <button style="float:right;" type="button" onclick="addFunction()" class="btn btn-primary">Tambah Nasabah</button>
                         </div>
                         <!-- /.card-header -->

@@ -20,7 +20,7 @@ class Authentication extends RestController
         // Validate the post data
         $output = $this->nasabah->user_login($this->input->post('username'), $this->input->post('password'));
         if (!empty($output)) {
-
+            $qr = base_url('assets/qrcode/') . $output->qr_code;
             // Check if any output exists with the given credentials
             // $params['returnType'] = 'single';
             // $params['conditions'] = array(
@@ -44,6 +44,7 @@ class Authentication extends RestController
                 'data_delete' => $output->data_delete,
                 'status' => $output->status,
                 'update_at' => $output->update_at,
+                'qr_code' => $qr
 
             );
             // $data['id_nasabah'] = $output->id_nasabah;

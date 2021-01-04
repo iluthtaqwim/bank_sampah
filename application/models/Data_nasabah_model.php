@@ -85,6 +85,12 @@ class Data_nasabah_model extends CI_Model
         return $this->db->insert_id();
     }
 
+    public function update_tabungan()
+    {
+        $this->db->query('UPDATE nasabah nas SET nas.total_tabungan = (SELECT SUM(t.total_harga) FROM transaksi t WHERE t.id_nasabah = nas.id_nasabah)');
+        return $this->db->affected_rows();
+    }
+
     public function update_nasabah($where, $data)
     {
         $this->db->update('nasabah', $data, $where);
