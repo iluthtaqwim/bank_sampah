@@ -25,9 +25,9 @@ class DataRw1 extends CI_Controller
 
     public function ajax_list()
     {
-        $list = $this->nasabah->get_datatables();
+        $list = $this->nasabah->data_nasabah();
         $data = array();
-        $no = $_POST['start'];
+        $no = 0;
         foreach ($list as $nasabah) {
             $no++;
             $row = array();
@@ -47,9 +47,7 @@ class DataRw1 extends CI_Controller
         }
 
         $output = array(
-            "draw" => $_POST['draw'],
-            "recordsTotal" => $this->nasabah->count_all(),
-            "recordsFiltered" => $this->nasabah->count_filtered(),
+
             "data" => $data,
         );
         //output to json format

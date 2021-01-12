@@ -3,15 +3,15 @@
 class Data_nasabah_model extends CI_Model
 {
 
-    var $table = 'view_nasabah';
+    var $table = 'nasabah';
     var $column_order = array(null, 'nama_nasabah', 'alamat', 'tanggal_lahir', 'total_tabungan'); //set column field database for datatable orderable
     var $column_search = array('nama_nasabah', 'alamat', 'tanggal_lahir', 'total_tabungan'); //set column field database for datatable searchable 
     var $order = array('id_nasabah' => 'asc'); // default order 
 
     public function _get_datatables_query()
     {
-        $this->db->from($this->table);
-        $this->db->where('data_delete', 'N');
+        $this->db->query("SELECT *, wilayah.nama_wilayah FROM nasabah JOIN wilayah ON nasabah.id_wilayah = wilayah.id_wilayah WHERE nasabah.data_delete = 'N'");
+
         $i = 0;
 
         foreach ($this->column_search as $item) // loop column 
@@ -60,15 +60,14 @@ class Data_nasabah_model extends CI_Model
 
     public function count_all()
     {
-        $this->db->from($this->table);
+        $this->db->from('nasabah');
         return $this->db->count_all_results();
     }
     function data_nasabah()
     {
-        $this->db->from($this->table);
-        $this->db->where('data_delete', 'N');
-        $query =  $this->db->get();
-        return $query->result();
+        $q = $this->db->query("SELECT *, wilayah.nama_wilayah FROM nasabah JOIN wilayah ON nasabah.id_wilayah = wilayah.id_wilayah WHERE nasabah.data_delete = 'N'");
+
+        return $q->result();
     }
 
     public function get_by_id_nasabah($id)

@@ -46,9 +46,9 @@
                      </a>
                      <ul class="nav nav-treeview">
                          <li class="nav-item">
-                             <a href="<?php echo site_url() ?>transaksi/" class="<?php if ($this->uri->segment(1) == "transaksi") {
-                                                                                        echo "active";
-                                                                                    } ?> nav-link">
+                             <a href="<?php echo site_url() ?>transaksi" class="<?php if ($this->uri->segment(1) == "transaksi") {
+                                                                                    echo "active";
+                                                                                } ?> nav-link">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>Histori Transaksi</p>
                              </a>

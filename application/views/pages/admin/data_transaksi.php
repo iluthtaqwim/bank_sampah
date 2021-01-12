@@ -23,7 +23,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">DataTable with minimal features & hover style</h3>
+                            <h3 class="card-title">DataTable</h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -123,115 +123,10 @@
     </div>
 </div>
 
-<script script script script type="text/javascript">
-    var table;
-
-    $(document).ready(function() {
-
-        //datatables
-        table = $('#datatable').DataTable({
-
-            "processing": false, //Feature control the processing indicator.
-            "serverSide": true, //Feature control DataTables' server-side processing mode.
-            "order": [], //Initial no order.
-            "lengthMenu": [
-                [25, 50, 100, -1],
-                [25, 50, 100, "All"]
-            ],
-            // Load data for the table's content from an Ajax source
-            "ajax": {
-                "url": "<?php echo site_url('transaksi/ajax_list') ?>",
-                "type": "POST"
-            },
-
-            //Set column definition initialisation properties.
-            "columnDefs": [{
-                    "targets": [0, 2], //first column / numbering column
-                    "orderable": false, //set not orderable
-                },
-                {
-                    "targets": [0, 5, 6, 7, 8],
-                    "className": 'text-center'
-                },
-            ],
-            dom: 'Blfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
-            ],
-        });
-    })
-</script>
 <script>
-    function addFunction() {
-        save_method = 'add';
-        $('#form').attr('action', '<?= base_url() ?>datarw1/tambah_nasabah');
-        $('#form')[0].reset(); // reset form on modals
-        $('#modelEdit').modal('show'); // show bootstrap modal when complete loaded
-        $('.modal-title').text('Tambah Data Nasabah'); // Set title to Bootstrap modal title
-    }
-
-    function editFunction(id) {
-        save_method = 'update';
-        $('#form')[0].reset(); // reset form on modals
-        $('#form').attr('action', '<?= base_url() ?>datarw1/edit_nasabah');
-
-        //Ajax Load data from ajax
-        $.ajax({
-            url: "<?= base_url() ?>datarw1/ajax_edit_nasabah/" + id,
-            type: "GET",
-            dataType: "JSON",
-            success: function(data) {
-                $('#id_nasabah').val(data.id_nasabah);
-                $('#nama_nasabah').val(data.nama_nasabah);
-                $('#alamat').val(data.alamat);
-                $('#tanggal_lahir').val(data.tanggal_lahir);
-                $('#tempat_lahir').val(data.tempat_lahir);
-                $('#id_wilayah').val(data.id_wilayah).attr("selected", "selected");
-                $('#no_hp').val(data.no_hp);
-
-                $('#modelEdit').modal('show'); // show bootstrap modal when complete loaded
-                $('.modal-title').text('Edit Data Nasabah'); // Set title to Bootstrap modal title
-
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                alert('Error get data from ajax');
-            }
+    $(document).ready(function() {
+        $('#datatable').DataTable({
+            "ajax": "<?php echo site_url('transaksi/ajax_list') ?>"
         });
-
-    }
-
-    function deleteFunction(id) {
-        event.preventDefault(); // prevent form submit
-        var form = event.target.form; // storing the form
-        swal({
-                title: "Are you sure?",
-                text: "But you will still be able to retrieve this file.",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Yes, archive it!",
-                cancelButtonText: "No, cancel please!",
-                closeOnConfirm: false,
-                closeOnCancel: false
-            },
-            function(isConfirm) {
-                if (isConfirm) {
-                    $.ajax({
-                        url: "<?= base_url() ?>datarw1/hapus_nasabah/" + id,
-                        type: "POST",
-                        dataType: "JSON",
-                        success: function(data) {
-
-                            location.reload();
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            alert('Error deleting data');
-                        }
-                    });
-                    swal("Deleted!", "Data Berhasil Dihapus.", "success");
-                } else {
-                    swal("Cancelled", "Your imaginary file is safe :)", "error");
-                }
-            });
-    }
+    });
 </script>

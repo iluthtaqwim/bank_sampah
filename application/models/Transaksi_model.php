@@ -64,18 +64,24 @@ class Transaksi_model extends CI_Model
     }
     public function transaksi_all()
     {
-        $data = $this->db->get('view_transaksi');
+        $data = $this->db->query('SELECT *, nasabah.nama_nasabah, jenis_sampah.nama_jenis FROM transaksi JOIN nasabah ON transaksi.id_nasabah = nasabah.id_nasabah JOIN jenis_sampah ON transaksi.id_jenis_sampah = jenis_sampah.id_jenis_sampah');
         return $data->result();
     }
 
-    public function transaksi_data($uid)
+    public function transaksi_data($uid = null)
     {
+        if ($uid == null) {
+            $data = $this->db->select('*');
+            $data = $this->db->from('transaksi');
+            return $data->result();
+        } else {
 
-        $this->db->select('*');
-        $this->db->from('view_transaksi');
-        $this->db->where('kode_transaksi', $uid);
-        $data =  $this->db->get();
-        return $data->result();
+            $this->db->select('*');
+            $this->db->from('transaksi');
+            $this->db->where('kode_transaksi', $uid);
+            $data =  $this->db->get();
+            return $data->result();
+        }
     }
 
     public function get_data_nasabah($id_nasabah = null)

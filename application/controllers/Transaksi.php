@@ -12,24 +12,23 @@ class Transaksi extends CI_Controller
 
     public function index()
     {
-        $q = $this->db->query("SELECT * FROM view_transaksi"); //query get list transaksi berdasar uniqid
 
-        $this->template->load('layout/template', 'pages/admin/data_transaksi', $q);
+        $this->template->load('layout/template', 'pages/admin/data_transaksi');
     }
 
     public function ajax_list()
     {
-        $list = $this->transaksi->get_datatables();
+        $list = $this->transaksi->transaksi_all();
         $data = array();
-        $no = $_POST['start'];
+        $no = 0;
         foreach ($list as $transaksi) {
             $no++;
             $row = array();
             $row[] = $no;
             $row[] = $transaksi->kode_transaksi;
             $row[] = $transaksi->nama_nasabah;
-            $row[] = $transaksi->tanggal_transaksi;
-            $row[] = $transaksi->jenis_sampah;
+            $row[] = $transaksi->create_at;
+            $row[] = $transaksi->nama_jenis;
             $row[] = $transaksi->berat_sampah;
             $row[] = $transaksi->total_harga;
             $row[] = '<button type="button" class="btn btn-warning" onclick="editFunction(' . $transaksi->id_transaksi . ')">Edit</button>
@@ -40,9 +39,6 @@ class Transaksi extends CI_Controller
         }
 
         $output = array(
-            "draw" => $_POST['draw'],
-            "recordsTotal" => $this->transaksi->count_all(),
-            "recordsFiltered" => $this->transaksi->count_filtered(),
             "data" => $data,
         );
         //output to json format
@@ -73,7 +69,7 @@ class Transaksi extends CI_Controller
     function add_list_trans()
     {
         $id_jenis = $this->input->post('jenis_sampah');
-        $q_harga = $this->db->query("SELECT harga FROM jenis_sampah WHERE id_jenis_sampah = '$id_jenis'")->row();
+        $q_harga = (int)$this->db->query("SELECT harga FROM jenis_sampah WHERE id_jenis_sampah = '$id_jenis'")->row();
         $berat = $this->input->post('berat_sampah');
 
         $t = $q_harga['harga'] * $berat;

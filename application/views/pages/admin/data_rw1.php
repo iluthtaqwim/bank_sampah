@@ -134,7 +134,7 @@
         table = $('#datatable').DataTable({
 
             "processing": false, //Feature control the processing indicator.
-            "serverSide": true, //Feature control DataTables' server-side processing mode.
+            "serverSide": false, //Feature control DataTables' server-side processing mode.
             "order": [], //Initial no order.
             "lengthMenu": [
                 [25, 50, 100, -1],
