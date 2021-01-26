@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'banksampah_db',
+	'hostname' => 'https://remotemysql.com/phpmyadmin/index.php',
+	'username' => 'kWbFdfLVJ3',
+	'password' => 'Pmx8hzG5NJ',
+	'database' => 'kWbFdfLVJ3',
 	'dbdriver' => 'mysqli',
 	'port'	   => '',
 	'dbprefix' => '',
