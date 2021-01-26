@@ -66,6 +66,13 @@ class Transaksi extends CI_Controller
         echo json_encode($get_nasabah);
     }
 
+    function get_transaksi($id_transaksi)
+    {
+        $get_transaksi = $this->transaksi->transaksi_data($id_transaksi);
+
+        echo json_encode($get_transaksi);
+    }
+
     function add_list_trans()
     {
         $id_jenis = $this->input->post('jenis_sampah');

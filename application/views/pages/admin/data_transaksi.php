@@ -129,4 +129,70 @@
             "ajax": "<?php echo site_url('transaksi/ajax_list') ?>"
         });
     });
+
+    function editFunction(id) {
+        save_method = 'update';
+        $('#form')[0].reset(); // reset form on modals
+        $('#form').attr('action', '<?= base_url() ?>transaksi/edit_nasabah');
+
+        //Ajax Load data from ajax
+        $.ajax({
+            url: "<?= base_url() ?>transaksi/get_transaksi/" + id,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data) {
+                console.log(data.uniqueid);
+                $('#id_nasabah').val(data.id_nasabah);
+                $('#nama_nasabah').val(data.nama_nasabah);
+                $('#alamat').val(data.alamat);
+                $('#tanggal_lahir').val(data.tanggal_lahir);
+                $('#tempat_lahir').val(data.tempat_lahir);
+                $('#id_wilayah').val(data.id_wilayah).attr("selected", "selected");
+                $('#no_hp').val(data.no_hp);
+
+                $('#modelEdit').modal('show'); // show bootstrap modal when complete loaded
+                $('.modal-title').text('Edit Data Nasabah'); // Set title to Bootstrap modal title
+
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('Error get data from ajax');
+            }
+        });
+
+    }
+
+    function deleteFunction(id) {
+        event.preventDefault(); // prevent form submit
+        var form = event.target.form; // storing the form
+        swal({
+                title: "Are you sure?",
+                text: "But you will still be able to retrieve this file.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, archive it!",
+                cancelButtonText: "No, cancel please!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function(isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        url: "<?= base_url() ?>datarw1/hapus_nasabah/" + id,
+                        type: "POST",
+                        dataType: "JSON",
+                        success: function(data) {
+
+                            location.reload();
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            alert('Error deleting data');
+                        }
+                    });
+                    swal("Deleted!", "Data Berhasil Dihapus.", "success");
+                } else {
+                    swal("Cancelled", "Your imaginary file is safe :)", "error");
+                }
+            });
+    }
 </script>

@@ -109,7 +109,7 @@ class Transaksi_model extends CI_Model
 
     public function update_data($where, $data)
     {
-        $this->db->update('list_transaksi', $data, $where);
+        $this->db->update('transaksi', $data, $where);
         return $this->db->affected_rows();
     }
 
