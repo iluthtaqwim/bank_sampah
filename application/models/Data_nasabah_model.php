@@ -72,9 +72,8 @@ class Data_nasabah_model extends CI_Model
 
     public function get_by_id_nasabah($id)
     {
-        $this->db->from('nasabah');
-        $this->db->where('id_nasabah', $id);
-        $query = $this->db->get();
+        $query = $this->db->query('select nasabah.*, wilayah.nama_wilayah from nasabah join wilayah on wilayah.id_wilayah = nasabah.id_wilayah where id_nasabah = '.$id);
+      
         return $query->row();
     }
 

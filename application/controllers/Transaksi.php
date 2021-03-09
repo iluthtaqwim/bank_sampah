@@ -76,10 +76,10 @@ class Transaksi extends CI_Controller
     function add_list_trans()
     {
         $id_jenis = $this->input->post('jenis_sampah');
-        $q_harga = (int)$this->db->query("SELECT harga FROM jenis_sampah WHERE id_jenis_sampah = '$id_jenis'")->row();
+        $q_harga = $this->db->query("SELECT harga FROM jenis_sampah WHERE id_jenis_sampah = '$id_jenis'")->row();
         $berat = $this->input->post('berat_sampah');
-
-        $t = $q_harga['harga'] * $berat;
+        $t_harga = $q_harga['harga'];
+        $t = $t_harga * $berat;
         $data_list_transaksi = array(
             'kode_transaksi' => $this->input->post('uniqid'),
             'total_list' =>  $t,
@@ -140,6 +140,7 @@ class Transaksi extends CI_Controller
         $uid = $this->input->post('uniqid');
 
         $data =  $this->transaksi->transaksi_data($uid);
+        
 
         // $this->template->load('layout/template', 'pages/admin/tambah_transaksi', $data);
         echo json_encode($data);

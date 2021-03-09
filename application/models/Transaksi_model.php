@@ -71,15 +71,17 @@ class Transaksi_model extends CI_Model
     public function transaksi_data($uid = null)
     {
         if ($uid == null) {
-            $data = $this->db->select('*');
+            $data = $this->db->select('transaksi.*,jenis_sampah.nama_jenis as jenis_sampah,jenis_sampah.harga');
             $data = $this->db->from('transaksi');
+            $data = $this->db->join('jenis_sampah','jenis_sampah.id_jenis_sampah = transaksi.id_jenis_sampah');
             return $data->result();
         } else {
 
-            $this->db->select('*');
-            $this->db->from('transaksi');
-            $this->db->where('kode_transaksi', $uid);
-            $data =  $this->db->get();
+            $data = $this->db->select('transaksi.*,jenis_sampah.nama_jenis as jenis_sampah,jenis_sampah.harga');
+            $data = $this->db->from('transaksi');
+            $data = $this->db->join('jenis_sampah','jenis_sampah.id_jenis_sampah = transaksi.id_jenis_sampah');
+            $data = $this->db->where('kode_transaksi', $uid);
+            $data = $this->db->get();
             return $data->result();
         }
     }
